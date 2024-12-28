@@ -1,18 +1,30 @@
-const { app, BrowserWindow } = require("electron");
+const { app, BrowserWindow, ipcMain, screen } = require("electron");
 const path = require("path");
 const url = require("url");
 
+const WINDOW_WIDTH = 240;
+const WINDOW_HEIGHT = 185;
+const MARGIN_RIGHT = 50;
+const MARGIN_BOTTOM = 20;
+
+let mainWindow;
+
 function createMainWindow() {
-	let mainWindow = new BrowserWindow({
+	const { width, height } = screen.getPrimaryDisplay().workAreaSize;
+
+	mainWindow = new BrowserWindow({
 		title: "Timer desktop",
-		width: 1000,
-		height: 800,
+		width: WINDOW_WIDTH,
+		height: WINDOW_HEIGHT,
+		x: width - WINDOW_WIDTH - MARGIN_RIGHT,
+		y: height - WINDOW_HEIGHT - MARGIN_BOTTOM,
 		frame: false,
 		transparent: true,
 		webPreferences: {
 			webSecurity: false,
-			nodeIntegration: true,
-			contextIsolation: false,
+			// nodeIntegration: true,
+			// contextIsolation: false,
+			preload: path.join(__dirname, "preload.js"),
 		},
 	});
 
@@ -42,5 +54,12 @@ app.on("window-all-closed", () => {
 app.on("activate", () => {
 	if (BrowserWindow.getAllWindows().length === 0) {
 		createMainWindow();
+	}
+});
+
+ipcMain.on("move-window", (event, { deltaX, deltaY }) => {
+	if (mainWindow) {
+		const [x, y] = mainWindow.getPosition();
+		mainWindow.setPosition(x + deltaX, y + deltaY);
 	}
 });

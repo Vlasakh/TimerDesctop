@@ -1,10 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 
-import App from "./App";
+import { App } from "./App";
 import "./index.css";
-
-// import reportWebVitals from './reportWebVitals';
 
 // alert("works");
 
@@ -15,7 +13,25 @@ root.render(
 	</React.StrictMode>,
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-// reportWebVitals();
+let isDragging = false;
+let startX, startY;
+
+try {
+	document.addEventListener("mousedown", (e) => {
+		isDragging = true;
+		startX = e.clientX;
+		startY = e.clientY;
+	});
+
+	document.addEventListener("mousemove", (e) => {
+		if (isDragging) {
+			window.electron.moveWindow(e.clientX - startX, e.clientY - startY);
+		}
+	});
+
+	document.addEventListener("mouseup", () => {
+		isDragging = false;
+	});
+} catch (e) {
+	console.error(e.message);
+}

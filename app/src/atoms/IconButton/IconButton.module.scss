@@ -1,0 +1,11 @@
+.button {
+  &.iconButton {
+    min-width: 25px;
+    width: 32px;
+
+    & > span {
+      margin: 0;
+    }
+  }
+
+}

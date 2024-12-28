@@ -5,7 +5,7 @@
 	"main": "main.js",
 	"scripts": {
 		"start": "electron .",
-		"start:app": "cd ./app && npm start"
+		"start:app": "cd app && npm start"
 	},
 	"author": "",
 	"license": "ISC",
