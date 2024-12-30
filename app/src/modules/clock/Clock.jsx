@@ -1,4 +1,5 @@
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import CloseIcon from "@mui/icons-material/Close";
 import PauseIcon from "@mui/icons-material/Pause";
 import PlayIcon from "@mui/icons-material/PlayArrow";
 import RestoreIcon from "@mui/icons-material/Restore";
@@ -11,9 +12,16 @@ import { useClock } from "./use-clock";
 export function Clock() {
 	const { onStart, currentTime, isRunning, onPause, onReset, isPaused } = useClock();
 
+	const handleClose = () => {
+		console.log("❗window.electron?.windowControl?.close", window.electron?.windowControl?.close);
+		// window.electron?.windowControl?.close();
+	};
+
 	return (
 		<div className={styles.container}>
-			<div className={styles.item1}></div>
+			<div className={styles.close}>
+				<IconButton icon={CloseIcon} onClick={handleClose} />
+			</div>
 			<div className={styles.goBack}>
 				<div>
 					<IconButton icon={ArrowBackIcon} onClick={() => {}} />

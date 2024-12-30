@@ -1,12 +1,16 @@
-import { app, BrowserWindow, dialog, screen } from "electron";
-// import { WindowManager } from "electron-window-manager";
+import { app, BrowserWindow, dialog, ipcMain, screen } from "electron";
+import WindowManager from "electron-window-manager";
 import path from "path";
 import url, { fileURLToPath } from "url";
 
 import { WindowService } from "./electron/window-service.mjs";
 
-const WINDOW_WIDTH = 240;
-const WINDOW_HEIGHT = 185;
+const IS_DEBUG = 0;
+const IS_DEBUG_WIDTH = IS_DEBUG ? 1000 : 0;
+const IS_DEBUG_HEIGHT = IS_DEBUG ? 800 : 0;
+
+const WINDOW_WIDTH = IS_DEBUG_WIDTH || 240;
+const WINDOW_HEIGHT = IS_DEBUG_HEIGHT || 185;
 const MARGIN_RIGHT = 50;
 const MARGIN_BOTTOM = 20;
 const IS_MACOS = process.platform === "darwin";
@@ -27,16 +31,16 @@ function createMainWindow() {
 		y: height - WINDOW_HEIGHT - MARGIN_BOTTOM,
 		frame: false,
 		transparent: true,
-		alwaysOnTop: true, // This line makes the window stay above all other windows
+		alwaysOnTop: true,
 		webPreferences: {
 			webSecurity: false,
-			// nodeIntegration: true,
-			// contextIsolation: false,
-			preload: path.join(__dirname, "electron", "preload.mjs"),
+			nodeIntegration: true,
+			contextIsolation: true,
+			preload: path.join(__dirname, "electron", "preload.js"),
 		},
 	});
 
-	// mainWindow.webContents.openDevTools();
+	IS_DEBUG && mainWindow.webContents.openDevTools();
 
 	const startUrl = url.format({
 		pathname: path.join(__dirname, "./app/build/index.html"),
@@ -56,20 +60,24 @@ function createMainWindow() {
 	// 	message: `You are running on macOS (process.platform: ${process.platform})`,
 	// });
 
-	// if (process.platform === "darwin") {
-	// 	const windowManager = new WindowManager();
-	// 	windowManager.add(mainWindow, "mainWindow", "Timer desktop", "http://localhost:3000", {
-	// 		alwaysOnTop: true,
-	// 		visibleOnAllWorkspaces: true,
-	// 	});
-	//
-	// 	windowManager.on("workspace-changed", () => {
-	// 		if (mainWindow) {
-	// 			mainWindow.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true });
-	// 			mainWindow.setVisibleOnAllWorkspaces(false);
-	// 		}
-	// 	});
-	// }
+	if (IS_MACOS) {
+		mainWindow.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true });
+
+		app.on("browser-window-blur", () => {
+			mainWindow.setVisibleOnAllWorkspaces(false);
+		});
+
+		app.on("browser-window-focus", () => {
+			mainWindow.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true });
+		});
+	}
+
+	ipcMain.on("close-window", (event) => {
+		const window = BrowserWindow.getFocusedWindow();
+		if (window) {
+			window.close();
+		}
+	});
 
 	windowService.addWindowMoveListener(mainWindow);
 }

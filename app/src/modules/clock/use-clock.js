@@ -19,7 +19,7 @@ export function useClock(initialTimeInSeconds = 60) {
 					clearInterval(timerRef.current);
 					setIsRunning(false);
 					setIsTimeOut(true);
-					return 0;
+					return initialTimeInSeconds;
 				}
 				return prevTime - 1;
 			});
