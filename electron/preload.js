@@ -1,21 +1,12 @@
 const { contextBridge, ipcRenderer } = require("electron");
+const path = require("path");
+const { WindowService } = require(path.join(__dirname, "window-service"));
+
+const windowService = new WindowService();
 
 contextBridge.exposeInMainWorld("electron", {
-	moveWindow: (deltaX, deltaY) => {
-		// console.log("❗deltaX");
-		// dialog.showMessageBox({
-		// 	type: "info",
-		// 	title: "Platform Information",
-		// 	message: `deltaX, deltaY ` + deltaX + " " + deltaY,
-		// });
-		console.log("❗here");
-
-		ipcRenderer.send("move-window", { deltaX, deltaY });
+	windowControl: {
+		moveWindow: (deltaX, deltaY) => windowService.windowControlMoveWindow({ deltaX, deltaY }),
+		close: () => windowService.windowControlClose(),
 	},
 });
-
-// window.electron = {
-// 	windowControl: {
-// 		close: () => ipcRenderer.send("close-window"),
-// 	},
-// };

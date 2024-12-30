@@ -1,9 +1,7 @@
-import { app, BrowserWindow, dialog, ipcMain, screen } from "electron";
-import WindowManager from "electron-window-manager";
-import path from "path";
-import url, { fileURLToPath } from "url";
-
-import { WindowService } from "./electron/window-service.mjs";
+const { app, BrowserWindow, dialog, ipcMain, screen } = require("electron");
+const path = require("path");
+const url = require("url");
+const { WindowService } = require("./electron/window-service.js");
 
 const IS_DEBUG = 0;
 const IS_DEBUG_WIDTH = IS_DEBUG ? 1000 : 0;
@@ -16,8 +14,6 @@ const MARGIN_BOTTOM = 20;
 const IS_MACOS = process.platform === "darwin";
 
 const windowService = new WindowService();
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 let mainWindow;
 
 function createMainWindow() {
@@ -72,26 +68,18 @@ function createMainWindow() {
 		});
 	}
 
-	ipcMain.on("close-window", (event) => {
-		const window = BrowserWindow.getFocusedWindow();
-		if (window) {
-			window.close();
-		}
-	});
-
+	windowService.addCloseWindowListener();
 	windowService.addWindowMoveListener(mainWindow);
 }
 
 app.on("ready", createMainWindow);
 
 app.on("window-all-closed", () => {
-	if (!IS_MACOS) {
-		app.quit();
-	}
+	app.quit();
 });
 
-app.on("activate", () => {
-	if (BrowserWindow.getAllWindows().length === 0) {
-		createMainWindow();
-	}
-});
+// app.on("activate", () => {
+// 	if (BrowserWindow.getAllWindows().length === 0) {
+// 		createMainWindow();
+// 	}
+// });

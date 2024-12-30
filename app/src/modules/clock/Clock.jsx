@@ -13,8 +13,7 @@ export function Clock() {
 	const { onStart, currentTime, isRunning, onPause, onReset, isPaused } = useClock();
 
 	const handleClose = () => {
-		console.log("❗window.electron?.windowControl?.close", window.electron?.windowControl?.close);
-		// window.electron?.windowControl?.close();
+		window.electron?.windowControl?.close();
 	};
 
 	return (

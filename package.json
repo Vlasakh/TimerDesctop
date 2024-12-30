@@ -2,7 +2,7 @@
 	"name": "timerdesktop",
 	"version": "1.0.0",
 	"description": "",
-	"main": "main.mjs",
+	"main": "main.js",
 	"scripts": {
 		"start": "electron .",
 		"start:app": "cd app && npm start"
