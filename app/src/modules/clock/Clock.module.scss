@@ -5,27 +5,30 @@
 
 .container {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(3, auto);
-  padding: 10px;
+  grid-template-rows: auto auto auto;
+  gap: 10px;
   width: 220px;
 
+  .row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+
+    &.clockRow {
+      grid-template-columns: 1fr auto;
+      gap: 5px;
+    }
+  }
+
   .close {
-    grid-column: 1 / 2;
-    grid-row: 1 / 2;
+    //grid-row: 1 / 2;
   }
 
   .goBack {
-    grid-column: 2 / 3;
-    grid-row: 1 / 2;
-    justify-items: flex-end;
+    justify-self: end;
   }
 
   .clock {
-    grid-column: 1 / 3;
-    grid-row: 2 / 3;
-    justify-items: center;
-    padding: 10px 0;
+    justify-self: center;
 
     font-family: FjallaOne;
     font-weight: bold;
@@ -33,7 +36,7 @@
 
     & > div {
       display: flex;
-      gap: 1px
+      gap: 1px;
     }
 
     .colon {
@@ -51,12 +54,12 @@
       width: 42px;
       padding: 0 3px;
 
-      background-color: #fff; /* White background */
-      border: 1px solid #000; /* Black border */
-      border-radius: 8px; /* Rounded corners */
+      background-color: #fff;
+      border: 1px solid #000;
+      border-radius: 8px;
 
       text-align: center;
-      color: #000; /* Black text */
+      color: #000;
 
       &::after {
         content: "";
@@ -72,13 +75,22 @@
   }
 
   .reset {
-    grid-column: 1 / 2;
-    grid-row: 3 / 4;
+    //grid-row: 3 / 4;
   }
 
   .pause {
-    grid-column: 2 / 3;
-    grid-row: 3 / 4;
-    justify-items: flex-end;
+    justify-self: end;
   }
+
+  .rounds {
+    //grid-row: 2 / 3;
+  }
+}
+
+.container > div {
+  border: 1px solid red;
+}
+
+.container .row > div {
+  border: 1px dotted blue;
 }

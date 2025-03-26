@@ -1,3 +1,5 @@
+import cx from "clsx";
+
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import CloseIcon from "@mui/icons-material/Close";
 import PauseIcon from "@mui/icons-material/Pause";
@@ -18,34 +20,43 @@ export function Clock() {
 
 	return (
 		<div className={styles.container}>
-			<div className={styles.close}>
-				<IconButton icon={CloseIcon} onClick={handleClose} />
-			</div>
-			<div className={styles.goBack}>
-				<div>
-					<IconButton icon={ArrowBackIcon} onClick={() => {}} />
+			<div className={styles.row}>
+				<div className={styles.close}>
+					<IconButton icon={CloseIcon} onClick={handleClose} />
+				</div>
+				<div>AA</div>
+				<div className={styles.goBack}>
+					<div>
+						<IconButton icon={ArrowBackIcon} onClick={() => {}} />
+					</div>
 				</div>
 			</div>
-			<div className={styles.clock}>
-				<div>
-					{formatTime(currentTime)
-						.split("")
-						.map((num) => (
-							<div className={num === ":" ? styles.colon : styles.digit}>{num}</div>
-						))}
+			<div className={cx(styles.row, styles.clockRow)}>
+				<div className={styles.clock}>
+					<div>
+						{formatTime(currentTime)
+							.split("")
+							.map((num) => (
+								<div className={num === ":" ? styles.colon : styles.digit}>{num}</div>
+							))}
+					</div>
 				</div>
+				<div className={styles.rounds}>cell 2/2</div>
 			</div>
-			<div className={styles.reset}>
-				<div>
-					{!isRunning && !isPaused && <IconButton icon={PlayIcon} onClick={onStart} />}
-					{(isRunning || isPaused) && <IconButton icon={RestoreIcon} onClick={onReset} />}
+			<div className={styles.row}>
+				<div className={styles.reset}>
+					<div>
+						{!isRunning && !isPaused && <IconButton icon={PlayIcon} onClick={onStart} />}
+						{(isRunning || isPaused) && <IconButton icon={RestoreIcon} onClick={onReset} />}
+					</div>
 				</div>
-			</div>
-			<div className={styles.pause}>
-				<div>
-					{isRunning && <IconButton icon={PauseIcon} onClick={onPause} />}
-					{isPaused && <IconButton icon={PlayIcon} onClick={onStart} />}
-					{!isRunning && !isPaused && <IconButton icon={PlayIcon} onClick={onStart} />}
+				<div>zzz</div>
+				<div className={styles.pause}>
+					<div>
+						{isRunning && <IconButton icon={PauseIcon} onClick={onPause} />}
+						{isPaused && <IconButton icon={PlayIcon} onClick={onStart} />}
+						{!isRunning && !isPaused && <IconButton icon={PlayIcon} onClick={onStart} />}
+					</div>
 				</div>
 			</div>
 		</div>

@@ -41,10 +41,10 @@ function createMainWindow() {
 	const startUrl = url.format({
 		pathname: path.join(__dirname, "./app/build/index.html"),
 		protocol: "file:",
-		slashes: true,
+		// slashes: true,
 	});
-	// mainWindow.loadURL(startUrl);
-	mainWindow.loadURL("http://localhost:3000");
+	mainWindow.loadURL(startUrl);
+	// mainWindow.loadURL("http://localhost:3000");
 
 	mainWindow.on("closed", () => {
 		mainWindow = null;
