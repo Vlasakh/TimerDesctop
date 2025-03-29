@@ -1,62 +1,43 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from 'react';
 
-export function useClock(initialTimeInSeconds = 60) {
-	const [currentTime, setCurrentTime] = useState(initialTimeInSeconds);
+// const DEF_TIME = 60;
+// const DEF_POST_TIMER_DURATION = 300;
+const DEF_TIME = 5;
+const DEF_POST_TIMER_DURATION = 5;
+
+export function useClock(initialTimeInSeconds = DEF_TIME, postTimerDurationInSeconds = DEF_POST_TIMER_DURATION) {
+	const [currentTime, setCurrentTime] = useState(DEF_TIME);
 	const [isRunning, setIsRunning] = useState(false);
-	const [isTimeOut, setIsTimeOut] = useState(false);
-	const [isPaused, setIsPaused] = useState(false);
-	const timerRef = useRef(null);
-
-	function handleStart() {
-		if (isRunning) return;
-
-		setIsRunning(true);
-		setIsPaused(false);
-		setIsTimeOut(false);
-		timerRef.current = setInterval(() => {
-			setCurrentTime((prevTime) => {
-				if (prevTime <= 1) {
-					clearInterval(timerRef.current);
-					setIsRunning(false);
-					setIsTimeOut(true);
-					return initialTimeInSeconds;
-				}
-				return prevTime - 1;
-			});
-		}, 1000);
-
-		console.log("Clock started");
-	}
-
-	function handlePause() {
-		if (!isRunning) return;
-
-		clearInterval(timerRef.current);
-		setIsRunning(false);
-		setIsPaused(true);
-		console.log("Clock paused");
-	}
-
-	function handleReset() {
-		clearInterval(timerRef.current);
-		setCurrentTime(initialTimeInSeconds);
-		setIsRunning(false);
-		setIsTimeOut(false);
-		setIsPaused(false);
-		console.log("Clock reseted");
-	}
+	const timeoutRef = useRef(null);
 
 	useEffect(() => {
-		return () => clearInterval(timerRef.current);
-	}, []);
+		if (isRunning) {
+			if (currentTime > 0) {
+				timeoutRef.current = setTimeout(() => {
+					setCurrentTime(currentTime - 1);
+				}, 1000);
+			} else {
+				setIsRunning(false);
+				setCurrentTime(DEF_TIME);
+			}
+		}
+		return () => clearTimeout(timeoutRef.current);
+	}, [isRunning, currentTime]);
+
+	const handleStartPauseToggle = () => {
+		setIsRunning(!isRunning);
+	};
+
+	const handleReset = () => {
+		setIsRunning(false);
+		setCurrentTime(DEF_TIME);
+		clearTimeout(timeoutRef.current);
+	};
 
 	return {
-		onStart: handleStart,
-		onPause: handlePause,
+		onStartPauseToggle: handleStartPauseToggle,
 		onReset: handleReset,
 		currentTime,
 		isRunning,
-		isTimeOut,
-		isPaused,
 	};
 }

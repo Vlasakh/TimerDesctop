@@ -24,4 +24,5 @@ module.exports = {
 	plugins: ["@trivago/prettier-plugin-sort-imports"],
 	printWidth: 120,
 	useTabs: true,
+	singleQuote: true,
 };
