@@ -1,13 +1,13 @@
-import cx from "clsx";
+import cx from 'clsx';
 
-import Button from "@mui/material/Button";
+import Button from '@mui/material/Button';
 
-import styles from "./IconButton.module.scss";
+import styles from './IconButton.module.scss';
 
-export function IconButton({ icon: Icon, onClick, text = "" }) {
+export function IconButton({ icon: Icon, onClick, text = '', className }) {
 	return (
 		<Button
-			className={cx(styles.iconButton, styles.button)}
+			className={cx(styles.iconButton, styles.button, className)}
 			variant="contained"
 			startIcon={Icon && <Icon />}
 			onClick={onClick}

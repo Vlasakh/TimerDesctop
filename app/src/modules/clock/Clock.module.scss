@@ -1,3 +1,5 @@
+$IS_DEBUG: false;
+
 @font-face {
   font-family: 'FjallaOne';
   src: url('../../fonts/fjalla-one.ttf') format('truetype');
@@ -19,9 +21,7 @@
     }
   }
 
-  .close {
-    //grid-row: 1 / 2;
-  }
+  .close {}
 
   .goBack {
     justify-self: end;
@@ -74,23 +74,50 @@
     }
   }
 
-  .reset {
-    //grid-row: 3 / 4;
+  .rounds {
+    &__roundsBtn {
+      height: 24px;
+    }
+
+    & > div {
+      font-size: 24px;
+      text-align: center;
+    }
+  }
+
+  .reset {}
+
+  .postTimer {
+    display: flex;
+    font-family: FjallaOne;
+    font-size: 28px;
+    text-align: center;
+    white-space: nowrap;
+    color: #555;
+
+    & > span {
+      display: block;
+      width: 1px;
+    }
   }
 
   .pause {
     justify-self: end;
   }
+}
 
-  .rounds {
-    //grid-row: 2 / 3;
-  }
+.hiddenContent {
+  opacity: 0;
 }
 
 .container > div {
-  border: 1px solid red;
+  @if $IS_DEBUG {
+    border: 1px solid red;
+  }
 }
 
 .container .row > div {
-  border: 1px dotted blue;
+  @if $IS_DEBUG {
+    border: 1px dotted blue;
+  }
 }

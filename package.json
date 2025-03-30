@@ -4,8 +4,8 @@
 	"description": "",
 	"main": "main.js",
 	"scripts": {
-		"start": "electron .",
-		"start:app": "cd app && npm start",
+		"start:electron": "electron .",
+		"start:react-app": "cd app && npm start",
 		"package-mac": "electron-packager . TimerDesktop --platform=darwin --arch=x64 --out=dist --overwrite --ignore=node_modules --prune=true --asar.unpack='resources/**/*'"
 	},
 	"build": {
