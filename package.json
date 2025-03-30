@@ -6,6 +6,7 @@
 	"scripts": {
 		"start:electron": "electron .",
 		"start:react-app": "cd app && npm start",
+		"buld:react-app": "run it from the react app package.json",
 		"package-mac": "electron-packager . TimerDesktop --platform=darwin --arch=x64 --out=dist --overwrite --ignore=node_modules --prune=true --asar.unpack='resources/**/*'"
 	},
 	"build": {

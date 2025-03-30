@@ -30,7 +30,7 @@ export function Clock() {
 				<div className={styles.close}>
 					<IconButton icon={CloseIcon} onClick={handleClose} />
 				</div>
-				<div className={styles.hiddenContent}>AA</div>
+				<div className={styles.hiddenContent}>AAA</div>
 				<div className={styles.goBack}>
 					<div>
 						<IconButton icon={ArrowBackIcon} onClick={() => {}} />
@@ -49,7 +49,9 @@ export function Clock() {
 				</div>
 				<div className={styles.rounds}>
 					<IconButton className={styles.rounds__roundsBtn} icon={PlusIcon} onClick={onIncrement} />
-					<div onClick={onRoundsReset}>{rounds}</div>
+					<div onClick={onRoundsReset}>
+						<span>{rounds}</span>
+					</div>
 					<IconButton className={styles.rounds__roundsBtn} icon={MinusIcon} onClick={onDecrement} />
 				</div>
 			</div>

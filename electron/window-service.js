@@ -1,7 +1,8 @@
-const { ipcMain, BrowserWindow, ipcRenderer } = require("electron");
+const { ipcMain, BrowserWindow, ipcRenderer } = require('electron');
+const { dialog } = require('electron');
 
-const CLOSE_WINDOW_MESSAGE = "close-window";
-let MOVE_WINDOW_MESSAGE = "move-window";
+const CLOSE_WINDOW_MESSAGE = 'close-window';
+let MOVE_WINDOW_MESSAGE = 'move-window';
 
 class WindowService {
 	addWindowMoveListener(mainWindow) {
@@ -15,6 +16,11 @@ class WindowService {
 
 	addCloseWindowListener() {
 		ipcMain.on(CLOSE_WINDOW_MESSAGE, (event) => {
+			dialog.showMessageBox({
+				type: 'info',
+				title: 'Exit',
+				message: `Press OK to exit`,
+			});
 			const window = BrowserWindow.getFocusedWindow();
 			if (window) {
 				window.close();

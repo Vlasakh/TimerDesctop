@@ -21,7 +21,8 @@ $IS_DEBUG: false;
     }
   }
 
-  .close {}
+  .close {
+  }
 
   .goBack {
     justify-self: end;
@@ -75,17 +76,27 @@ $IS_DEBUG: false;
   }
 
   .rounds {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
     &__roundsBtn {
       height: 24px;
     }
 
     & > div {
-      font-size: 24px;
+      font-size: 20px;
       text-align: center;
+
+      & > span {
+        border-radius: 5px;
+        background: #fff;
+      }
     }
   }
 
-  .reset {}
+  .reset {
+  }
 
   .postTimer {
     display: flex;
