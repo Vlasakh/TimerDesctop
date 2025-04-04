@@ -6,7 +6,6 @@ import CloseIcon from '@mui/icons-material/Close';
 import PauseIcon from '@mui/icons-material/Pause';
 import PlayIcon from '@mui/icons-material/PlayArrow';
 import MinusIcon from '@mui/icons-material/Remove';
-import RestoreIcon from '@mui/icons-material/Restore';
 import StopIcon from '@mui/icons-material/Stop';
 
 import { IconButton } from '../../atoms/IconButton/IconButton';
@@ -16,8 +15,16 @@ import { useClock } from './use-clock';
 import { useRoundsCounter } from './use-rounds-counter';
 
 export function Clock() {
-	const { currentTime, postTimer, isRunning, isPostTimerRunning, onStartPauseToggle, onReset, onStopPostTimer } =
-		useClock();
+	const {
+		currentTime,
+		postTimer,
+		isRunning,
+		isPaused,
+		isPostTimerRunning,
+		onStartPauseToggle,
+		onReset,
+		onStopPostTimer,
+	} = useClock();
 	const { rounds, onDecrement, onRoundsReset, onIncrement } = useRoundsCounter();
 
 	const handleClose = () => {
@@ -55,26 +62,28 @@ export function Clock() {
 					<IconButton className={styles.rounds__roundsBtn} icon={MinusIcon} onClick={onDecrement} />
 				</div>
 			</div>
-			<div className={styles.row}>
-				<div className={styles.reset}>
-					<div>
-						{!isRunning && <IconButton icon={PlayIcon} onClick={onStartPauseToggle} />}
-						{isRunning && <IconButton icon={RestoreIcon} onClick={onReset} />}
-					</div>
-				</div>
-				<div className={styles.postTimer}>
-					{isPostTimerRunning && (
-						<>
-							-<span>{formatTime(postTimer, 'm')}</span>
-						</>
+			<div className={cx(styles.row, styles.lastRow)}>
+				<div className={styles.timerBtns}>
+					{!isRunning && !isPostTimerRunning && !isPaused && (
+						<IconButton className={styles.timerBtns__widePlayBtn} icon={PlayIcon} onClick={onStartPauseToggle} />
 					)}
-				</div>
-				<div className={styles.pause}>
+					<div>
+						{!isRunning && isPostTimerRunning && <IconButton icon={PlayIcon} onClick={onStartPauseToggle} />}
+						{(isRunning || isPaused) && <IconButton icon={StopIcon} onClick={onReset} />}
+					</div>
 					<div>
 						{isRunning && <IconButton icon={PauseIcon} onClick={onStartPauseToggle} />}
-						{!isRunning && !isPostTimerRunning && <IconButton icon={PlayIcon} onClick={onStartPauseToggle} />}
+						{isPaused && <IconButton icon={PlayIcon} onClick={onStartPauseToggle} />}
 						{isPostTimerRunning && <IconButton icon={StopIcon} onClick={onStopPostTimer} />}
 					</div>
+				</div>
+				<div className={styles.pause}></div>
+				<div className={styles.postTimer}>
+					{isPostTimerRunning && (
+						<div>
+							-<span>{formatTime(postTimer, 'm')}</span>
+						</div>
+					)}
 				</div>
 			</div>
 		</div>

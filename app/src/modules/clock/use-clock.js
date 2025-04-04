@@ -5,7 +5,7 @@ import { IS_DEBUG } from '../../constants';
 const DEF_TIME = IS_DEBUG ? 5 : 60;
 const DEF_POST_TIMER_DURATION = IS_DEBUG ? 5 : 300;
 
-export function useClock(initialTimeInSeconds = DEF_TIME, postTimerDurationInSeconds = DEF_POST_TIMER_DURATION) {
+export function useClock(initialTime = DEF_TIME, initialPostTime = DEF_POST_TIMER_DURATION) {
 	const [currentTime, setCurrentTime] = useState(DEF_TIME);
 	const [isRunning, setIsRunning] = useState(false);
 	const timeoutRef = useRef(null);
@@ -13,6 +13,8 @@ export function useClock(initialTimeInSeconds = DEF_TIME, postTimerDurationInSec
 	const [postTimer, setPostTimer] = useState(0);
 	const [isPostTimerRunning, setIsPostTimerRunning] = useState(false);
 	const postTimerRef = useRef(null);
+
+	const isPaused = !isRunning && currentTime !== initialTime;
 
 	useEffect(() => {
 		if (isRunning) {
@@ -31,7 +33,7 @@ export function useClock(initialTimeInSeconds = DEF_TIME, postTimerDurationInSec
 
 	useEffect(() => {
 		if (isPostTimerRunning) {
-			if (postTimer < DEF_POST_TIMER_DURATION) {
+			if (postTimer < initialPostTime) {
 				postTimerRef.current = setTimeout(() => {
 					setPostTimer(postTimer + 1);
 				}, 1000);
@@ -71,6 +73,7 @@ export function useClock(initialTimeInSeconds = DEF_TIME, postTimerDurationInSec
 		currentTime,
 		postTimer,
 		isRunning,
+		isPaused,
 		isPostTimerRunning,
 	};
 }
