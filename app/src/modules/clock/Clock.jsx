@@ -31,6 +31,11 @@ export function Clock() {
 		window.electron?.windowControl?.close();
 	};
 
+	const handlePlay = () => {
+		onStartPauseToggle();
+		onIncrement();
+	};
+
 	return (
 		<div className={styles.container}>
 			<div className={styles.row}>
@@ -65,10 +70,10 @@ export function Clock() {
 			<div className={cx(styles.row, styles.lastRow)}>
 				<div className={styles.timerBtns}>
 					{!isRunning && !isPostTimerRunning && !isPaused && (
-						<IconButton className={styles.timerBtns__widePlayBtn} icon={PlayIcon} onClick={onStartPauseToggle} />
+						<IconButton className={styles.timerBtns__widePlayBtn} icon={PlayIcon} onClick={handlePlay} />
 					)}
 					<div>
-						{!isRunning && isPostTimerRunning && <IconButton icon={PlayIcon} onClick={onStartPauseToggle} />}
+						{!isRunning && isPostTimerRunning && <IconButton icon={PlayIcon} onClick={handlePlay} />}
 						{(isRunning || isPaused) && <IconButton icon={StopIcon} onClick={onReset} />}
 					</div>
 					<div>
